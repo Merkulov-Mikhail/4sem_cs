@@ -3,8 +3,8 @@
 *.cmake
 */Makefile
 Makefile
-*/build
-build
+*/build/*
+build/*
 CMakeFiles
 */.vscode
 .vscode
