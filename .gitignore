@@ -1,0 +1,10 @@
+*.exe
+*.elf
+*.cmake
+*/Makefile
+Makefile
+*/build
+build
+CMakeFiles
+*/.vscode
+.vscode
