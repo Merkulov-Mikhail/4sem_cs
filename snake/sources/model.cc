@@ -12,6 +12,7 @@ void Model::update() {
                 to_draw_.push_back(snake.add_segment(snake.get_previous_position()));
             }
         }
+        
     }
 }
 
