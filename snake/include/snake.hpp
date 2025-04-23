@@ -1,3 +1,4 @@
+#pragma once
 #include <list>
 #include <stdexcept>
 #include "base.hpp"
@@ -18,6 +19,7 @@ private:
     std::list<Segment> body_;
     DIRECTIONS direction_;
     position coords_;
+    int is_player = 1;
 
 public:
     Snake(): coords_(0, 0), direction_(DIRECTIONS::RIGHT) {body_.push_back({coords_});}
@@ -27,6 +29,17 @@ public:
     std::list<Entity> crawl();
     void     set_direction(DIRECTIONS dir) {direction_ = dir;}
     Entity   add_segment(const position& pos);
+    std::list<Segment> get_segments() const {
+        return body_;
+    }
+
+    void who_am_i(int bot) {
+        is_player = bot;
+    }
+
+    int is_bot() const {
+        return !(is_player);
+    }
 
     position get_previous_position();
     position get_position() const;

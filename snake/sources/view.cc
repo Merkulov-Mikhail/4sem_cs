@@ -6,7 +6,6 @@ void TView::run(Model& md) {
     char dir;
     int wait;
     while(running_) {
-        md.update();
         dir = 0;
         std::list<Entity> ent = md.get_entities();
         for (auto&& r: ent) {
@@ -56,6 +55,7 @@ void TView::run(Model& md) {
 
         std::for_each(subs_.begin(), subs_.end(), [dir](auto& sub){sub(dir);});
 
+        md.update();
         // draw_()
     }
 }
@@ -67,7 +67,7 @@ void TView::add_subscriber(subscriber sub) {
 int TView::wait_for_input(int wait_time, char* res) {
     auto start = std::chrono::high_resolution_clock::now();
     int poll_res = poll(&io_status_, 1, wait_time);
-
+ 
     auto end = std::chrono::high_resolution_clock::now();
     auto dur = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
     if (poll_res == -1) {
