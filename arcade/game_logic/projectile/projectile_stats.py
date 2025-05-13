@@ -1,0 +1,1 @@
+BASIC_SPEED = 2
