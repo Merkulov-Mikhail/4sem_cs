@@ -1,4 +1,4 @@
-from entities.entity import Creature
+from game_logic.entities.entity import Creature
 from math import cos, sin
 from game_logic.projectile.projectile_vector import ProjectileVector
 from game_logic.projectile.basic_projectile import Projectile
@@ -28,5 +28,5 @@ class Weapon:
     def _shoot(self):
         angle = self._owner.get_rotation()
         x, y = self._owner.get_coords()
-        proj = Projectile(x, y, angle)
+        proj = Projectile(x, y, angle, self._damage)
         self._projectiles.add_projectile(proj)

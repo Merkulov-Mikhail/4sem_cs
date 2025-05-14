@@ -12,7 +12,7 @@ class TripleShot(Weapon):
     def _shoot(self):
         angle = self._owner.get_rotation()
         x, y = self._owner.get_coords()
-        proj1 = CurvyProjectile(x, y, angle)
-        proj2 = CurvyProjectile(x, y, angle + math.pi / 4)
-        proj3 = CurvyProjectile(x, y, angle - math.pi / 4)
+        proj1 = CurvyProjectile(x, y, angle, self._damage)
+        proj2 = CurvyProjectile(x, y, angle + math.pi / 4, self._damage)
+        proj3 = CurvyProjectile(x, y, angle - math.pi / 4, self._damage)
         self._projectiles.add_projectile((proj1, proj2, proj3))

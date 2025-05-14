@@ -4,8 +4,8 @@ import math
 
 
 class CurvyProjectile(Projectile):
-    def __init__(self, x, y, rotation, speed=BASIC_SPEED):
-        super().__init__(x, y, rotation, speed)
+    def __init__(self, x, y, rotation, damage, speed=BASIC_SPEED):
+        super().__init__(x, y, rotation, damage, speed)
     
     def update(self, *args, **kwargs):
         super().update(*args, **kwargs)

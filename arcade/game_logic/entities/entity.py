@@ -1,10 +1,9 @@
-import pygame
-from game import Entity
+from game_logic.game import Entity
 
 
 class Creature(Entity):
-    def __init__(self, x: int = 0, y: int = 0, difficulty: int = 1):
-        super().__init__()
+    def __init__(self, x = 0, y = 0, x_size = 0, y_size = 0, difficulty=1, *groups):
+        super().__init__(x, y, x_size, y_size, *groups)
         self._cost = 1 + difficulty // 1000
         self._attack_speed = 1
         self._movement_speed = 1 + (difficulty ** 0.5 / 1000)
@@ -16,4 +15,3 @@ class Creature(Entity):
     def get_rotation(self):
         # in radians
         return 0
-    

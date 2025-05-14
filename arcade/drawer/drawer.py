@@ -7,6 +7,9 @@ from game_logic.game_stats import PLAYER_COLOR
 from game_logic.game import BACKGROUND_SIZE
 from game_logic.projectile.basic_projectile import Projectile
 from game_logic.projectile.projectile_stats import BASIC_PROJECTILE_COLOR
+
+from game_logic.entities.basic_enemy import BasicEnemy
+from game_logic.entities.enemy_stats import BASIC_ENEMY_COLOR
 from random import randint
 import math
 
@@ -25,6 +28,9 @@ class Drawer:
 
         self._screen = pygame.display.set_mode((self._width, self._height))
 
+    def normalize(self, x, y):
+        return self._camera.normalize(x, y)
+
     def draw_state(self, entities: pygame.sprite.Group):
         for ent in entities:
             ent: Creature
@@ -40,6 +46,8 @@ class Drawer:
             
             elif isinstance(ent, Projectile):
                 pygame.draw.ellipse(self._screen, BASIC_PROJECTILE_COLOR, (x, y, *ent.get_size()))
+            elif isinstance(ent, BasicEnemy):
+                pygame.draw.ellipse(self._screen, BASIC_ENEMY_COLOR, (x, y, *ent.get_size()))
         pygame.display.flip()
 
     

@@ -1,11 +1,15 @@
 import pygame
 
 from game_logic.entities.player import Player
+from game_logic.entities.basic_enemy import BasicEnemy
+
 from game_logic.game import WIDTH, HEIGHT, FPS
-from game_logic.player_stats import PLAYER_SIZE, PLAYER_COLOR
+from game_logic.game_stats import PLAYER_SIZE, PLAYER_COLOR
 
 from drawer.drawer import Drawer
 import game_logic.directions as dirs
+
+import math
 
 
 
@@ -18,10 +22,12 @@ class Game:
         self._drawer = Drawer(self._width, self._height)
         
         self._entities = pygame.sprite.Group()
+        self._to_draw = pygame.sprite.Group()
         self._player = Player()
         self._entities.add(self._player)
         self._clock  = pygame.time.Clock()
 
+        self._player_angle = 0
         self._player_points  = 0
         self._game_ticks = 0
         # decides, how hard to attack the player. THe higher tickerAmount, the more and stronger enemies will appear
@@ -54,8 +60,9 @@ class Game:
     def _handle_key_down(self, event: pygame.event):
         return
 
-    def update(self):
+    def update(self, *args, **kwargs):
         self._handle_pressed_keys(pygame.key.get_pressed())
+
 
         for ev in pygame.event.get():
             if ev.type == pygame.KEYUP:
@@ -64,19 +71,29 @@ class Game:
                 self._handle_key_down(ev)
             if ev.type == pygame.MOUSEMOTION:
                 self._mouse_pos = ev.pos
+                self._player_angle = self._drawer.calculate_angle(self._player.get_coords(), self._mouse_pos)
             if ev.type == pygame.QUIT:
                 exit()
-        self._entities.update()
+        self._entities.add(BasicEnemy())
+        self._entities.update(*args, **kwargs)
 
-    
+        for ent in self._entities:
+            if ent.expired():
+                self._entities.remove(ent)
+
+        self._to_draw.empty()
+        for ent in self._entities:
+            self._to_draw.add(ent.get_new_entities())
 
     def game_loop(self):
+        time_passed = 0
         while (True):
-            self.update()
+            self.update(time_passed=25, player_angle=self._player_angle, player_pos=self._player.get_coords())
             self._drawer.update_camera(self._player, self._mouse_pos)
             self._drawer.draw_background()
             self._drawer.draw_state(self._entities)
-            self._clock.tick(FPS)
+            self._drawer.draw_state(self._to_draw)
+            time_passed = self._clock.tick(FPS)
 
 
 g = Game()
