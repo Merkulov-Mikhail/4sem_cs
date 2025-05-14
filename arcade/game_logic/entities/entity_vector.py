@@ -1,4 +1,4 @@
-from .entity import Entity
+from .entity import Creature
 
 
 class EntityVector:
@@ -7,9 +7,9 @@ class EntityVector:
     
     def update(self, *args, **kwargs):
         for ent in self._entities:
-            ent.update(args, kwargs)
+            ent.update(*args, **kwargs)
 
-    def add_entity(self, ent: Entity):
+    def add_entity(self, ent: Creature):
         self._entities.append(ent)
 
     def get_entities(self):

@@ -1,4 +1,4 @@
-from game_logic.entities.entity import Entity
+from game_logic.entities.entity import Creature
 
 
 class Camera:
@@ -13,7 +13,7 @@ class Camera:
     def apply(self):
         return self._curr_x, self._curr_y
 
-    def update(self, target: Entity, mouse_pos: tuple):
+    def update(self, target: Creature, mouse_pos: tuple):
         a, b = self._width // 2 - mouse_pos[0], self._height // 2 - mouse_pos[1]
         x, y = target.get_coords()
         sx, sy = target.get_size()

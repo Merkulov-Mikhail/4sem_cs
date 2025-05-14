@@ -1,11 +1,14 @@
 import pygame
 from .health_colors import COLORS, COLORS_HEALTH, MIN_INDICATORS_IN_ROW, MAX_INDICATORS_IN_ROW
 from .camera import Camera
-from game_logic.entities.entity import Entity
+from game_logic.entities.entity import Creature
 from game_logic.entities.player import Player
-from game_logic.player_stats import PLAYER_COLOR
+from game_logic.game_stats import PLAYER_COLOR
 from game_logic.game import BACKGROUND_SIZE
+from game_logic.projectile.basic_projectile import Projectile
+from game_logic.projectile.projectile_stats import BASIC_PROJECTILE_COLOR
 from random import randint
+import math
 
 
 class Drawer:
@@ -19,13 +22,12 @@ class Drawer:
             self._background_obj.append(self._camera.normalize
                                         (randint(-1, 1 + self._width // BACKGROUND_SIZE) * 10, 
                                         randint(-1, 1 + self._height // BACKGROUND_SIZE) * 10))
-        print(self._background_obj)
 
         self._screen = pygame.display.set_mode((self._width, self._height))
 
     def draw_state(self, entities: pygame.sprite.Group):
         for ent in entities:
-            ent: Entity
+            ent: Creature
             x, y = self._camera.normalize(*ent.get_coords())
 
             if not self._is_visible((x, y), ent.get_size()):
@@ -35,7 +37,26 @@ class Drawer:
                 pygame.draw.rect(self._screen, PLAYER_COLOR, (x, y, 
                                                               *ent.get_size()))
                 self._draw_healthbar(ent, (x, y), ent.get_size())
+            
+            elif isinstance(ent, Projectile):
+                pygame.draw.ellipse(self._screen, BASIC_PROJECTILE_COLOR, (x, y, *ent.get_size()))
         pygame.display.flip()
+
+    
+    def calculate_angle(self, center1, center2):
+        x,  y  = self._camera.normalize(*center1)
+        x1, y1 = center2
+        ab = y1 - y
+        ac = x1 - x
+        try:
+            angle = math.atan(ab / ac)
+        except ZeroDivisionError:
+            angle = 0
+
+        if ac < 0:
+            angle += math.pi
+
+        return angle
 
     def draw_background(self):
         self._screen.fill((0, 0, 0))
@@ -48,7 +69,7 @@ class Drawer:
             pygame.draw.rect(self._screen, "#ff073a", (x, y, BACKGROUND_SIZE, BACKGROUND_SIZE), border_radius=2)
             pygame.draw.rect(self._screen, "#000000", (x + 2, y + 2, BACKGROUND_SIZE - 4, BACKGROUND_SIZE - 4), border_radius=2)
 
-    def update_camera(self, entity: Entity, mouse_pos: tuple):
+    def update_camera(self, entity: Creature, mouse_pos: tuple):
         self._camera.update(entity, mouse_pos)
 
     def _is_in_safe_border(self, x, y):
@@ -83,7 +104,7 @@ class Drawer:
             return True
         return False
 
-    def _draw_healthbar(self, ent: Entity, coords: tuple, size: tuple) -> None:
+    def _draw_healthbar(self, ent: Creature, coords: tuple, size: tuple) -> None:
         hlth = ent.get_health()
         pos = 0
         while pos < len(COLORS_HEALTH) and \
