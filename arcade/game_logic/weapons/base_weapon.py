@@ -1,4 +1,4 @@
-from game_logic.entities.entity import Creature
+from game_logic.entities.creature import Creature
 from math import cos, sin
 from game_logic.projectile.projectile_vector import ProjectileVector
 from game_logic.projectile.basic_projectile import Projectile

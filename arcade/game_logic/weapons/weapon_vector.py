@@ -1,4 +1,3 @@
-from .base_weapon import Weapon
 import pygame
 
 
@@ -10,13 +9,12 @@ class WeaponVector:
         for weapon in self._weapons:
             weapon.update(*args, **kwargs)
 
-    def add_weapon(self, weapon: Weapon):
+    def add_weapon(self, weapon):
         self._weapons.append(weapon)
 
     def get_projectiles(self):
         to_ret = pygame.sprite.Group()
         for weapon in self._weapons:
-            weapon: Weapon
             to_ret.add(weapon.get_projectiles())
         return to_ret
 

@@ -10,7 +10,7 @@ from weapons.weapon_vector import WeaponVector
 from weapons.base_weapon import Weapon
 from weapons.triple_shot import TripleShot
 
-from .entity import Creature
+from .creature import Creature
 
 
 class Player(Creature):

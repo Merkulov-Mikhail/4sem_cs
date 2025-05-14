@@ -1,7 +1,7 @@
 import pygame
 from .health_colors import COLORS, COLORS_HEALTH, MIN_INDICATORS_IN_ROW, MAX_INDICATORS_IN_ROW
 from .camera import Camera
-from game_logic.entities.entity import Creature
+from game_logic.entities.creature import Creature
 from game_logic.entities.player import Player
 from game_logic.game_stats import PLAYER_COLOR
 from game_logic.game import BACKGROUND_SIZE

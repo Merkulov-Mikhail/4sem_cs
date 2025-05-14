@@ -74,7 +74,7 @@ class Game:
                 self._player_angle = self._drawer.calculate_angle(self._player.get_coords(), self._mouse_pos)
             if ev.type == pygame.QUIT:
                 exit()
-        self._entities.add(BasicEnemy())
+        
         self._entities.update(*args, **kwargs)
 
         for ent in self._entities:
@@ -87,6 +87,7 @@ class Game:
 
     def game_loop(self):
         time_passed = 0
+        self._entities.add(BasicEnemy())
         while (True):
             self.update(time_passed=25, player_angle=self._player_angle, player_pos=self._player.get_coords())
             self._drawer.update_camera(self._player, self._mouse_pos)

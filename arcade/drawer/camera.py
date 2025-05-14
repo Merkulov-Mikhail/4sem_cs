@@ -1,4 +1,4 @@
-from game_logic.entities.entity import Creature
+from game_logic.entities.creature import Creature
 
 
 class Camera:

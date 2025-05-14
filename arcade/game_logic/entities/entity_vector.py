@@ -1,4 +1,4 @@
-from .entity import Creature
+from .creature import Creature
 
 
 class EntityVector:
